@@ -248,9 +248,10 @@ Rules worth keeping:
 - **The button in a mockup is the plugin's button** — same attributes
   (`data-voice-reject`, `data-state`), same 16×16 geometry, same hover rule. A
   mockup must not be able to show a state the plugin would not draw.
-- **Every label in the settings shot is copied from the plugin source**, down to
-  the placeholders and the channel verdict. Change the wording of a setting and
-  its screenshot has to change with it.
+- **The settings shot copies its wording from the plugin source**: every
+  description, placeholder and channel verdict is verbatim from the plugin, while
+  the option titles (`Command`, `Delay Seconds`) are Vencord's own, derived from
+  the settings keys. Change a setting's wording and its screenshot has to follow.
 - Regenerate the PNGs whenever something visible in `plugins/VoiceReject.tsx`
   changes; a stale screenshot is worse than none.
 
