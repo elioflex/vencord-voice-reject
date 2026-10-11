@@ -1,0 +1,19 @@
+# Dev-loop state: which plugins `./dev.sh sync` has deployed. Regenerated on
+# every sync, and only meaningful on the machine that ran it.
+.deployed
+
+# Logs captured by `./dev.sh restart` / `./dev.sh logs`
+*.log
+logs/
+
+# macOS
+.DS_Store
+._*
+
+# Editors
+.idea/
+.vscode/
+*.swp
+
+# Nothing here should need node_modules; keep stray installs out of the repo.
+node_modules/

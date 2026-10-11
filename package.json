@@ -1,0 +1,26 @@
+{
+    "name": "vencord-voice-reject",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Vencord userplugin: a one-click reject button for every other member of the voice channel you are in.",
+    "license": "GPL-3.0-or-later",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/elioflex/vencord-voice-reject.git"
+    },
+    "homepage": "https://github.com/elioflex/vencord-voice-reject#readme",
+    "bugs": {
+        "url": "https://github.com/elioflex/vencord-voice-reject/issues"
+    },
+    "scripts": {
+        "sync": "./dev.sh sync",
+        "build": "./dev.sh build",
+        "reload": "./dev.sh reload",
+        "restart": "./dev.sh restart",
+        "logs": "./dev.sh logs",
+        "cycle": "./dev.sh cycle"
+    },
+    "engines": {
+        "node": ">=18"
+    }
+}
