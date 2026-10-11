@@ -2,7 +2,16 @@
     "name": "vencord-voice-reject",
     "version": "1.0.0",
     "private": true,
-    "description": "Vencord userplugin: a one-click reject button for every other member of the voice channel you are in.",
+    "description": "A reject button on every other member of the voice channel you are in. Clicking it sends your server's chat command (for example .v reject 1234) from your own Discord client, then deletes that message after a delay. A Vencord userplugin, configured per server.",
+    "keywords": [
+        "vencord",
+        "vencord-plugin",
+        "vencord-userplugin",
+        "discord",
+        "discord-mod",
+        "userplugin",
+        "typescript"
+    ],
     "license": "GPL-3.0-or-later",
     "repository": {
         "type": "git",
