@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>VoiceReject — button states</title>
+<link rel="stylesheet" href="discord.css">
+</head>
+<body>
+<!--
+  The four states the button can be in, one row each. Only the first row is
+  drawn as hovered, because that is when an idle button appears; the other three
+  are visible while their state is not idle, exactly as HOVER_CSS specifies.
+-->
+<div class="states" style="width:600px;height:220px">
+    <div class="state-row">
+        <dc-member peer="0" hovered></dc-member>
+        <div class="note"><b>&#10005; idle</b> &mdash; invisible until you hover the row</div>
+    </div>
+    <div class="state-row">
+        <dc-member peer="1" state="busy"></dc-member>
+        <div class="note"><b>&#8230; busy</b> &mdash; sending the command</div>
+    </div>
+    <div class="state-row">
+        <dc-member peer="2" state="done"></dc-member>
+        <div class="note"><b>&#10003; done</b> &mdash; sent, turns green for two seconds</div>
+    </div>
+    <div class="state-row">
+        <dc-member peer="3" state="failed"></dc-member>
+        <div class="note"><b>! failed</b> &mdash; no reject channel set for that server</div>
+    </div>
+</div>
+<script src="fake-data.js"></script>
+</body>
+</html>

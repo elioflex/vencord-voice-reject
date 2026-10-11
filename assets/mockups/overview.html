@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>VoiceReject — overview</title>
+<link rel="stylesheet" href="discord.css">
+</head>
+<body>
+<!--
+  The whole client, so the shot shows where everything lives: the command
+  channel that receives the message, the voice channel you are in, and your
+  member list with the reject button on hover.
+
+  The message in #reject-log is the text the plugin actually sends, with the
+  clicked peer's generated id filled in.
+-->
+<div class="app">
+    <nav class="rail">
+        <div class="guild-icon active"><span data-seed-art="guild-a" data-size="48" style="width:100%;height:100%;border-radius:16px"></span></div>
+        <div class="guild-icon"><span data-seed-art="guild-b" data-size="48" style="width:100%;height:100%;border-radius:16px"></span></div>
+        <div class="guild-icon"><span data-seed-art="guild-c" data-size="48" style="width:100%;height:100%;border-radius:16px"></span></div>
+        <div class="sep"></div>
+        <div class="guild-icon add">+</div>
+    </nav>
+
+    <aside class="sidebar">
+        <header class="guild-header"><span>Test Bench</span><span style="font-size:12px;opacity:.8">&#9662;</span></header>
+        <div class="channels">
+            <div class="cat">Text Channels</div>
+            <div class="channel"><span class="hash">#</span>general</div>
+            <div class="channel active"><span class="hash">#</span>reject-log</div>
+            <div class="channel"><span class="hash">#</span>clips</div>
+
+            <div class="cat">Voice Channels</div>
+            <div class="channel"><span class="ico">&#128266;</span>Match Room</div>
+            <div class="voice-users">
+                <dc-voice-user peer="0" speaking></dc-voice-user>
+                <dc-voice-user peer="1"></dc-voice-user>
+                <dc-voice-user peer="2" icons="muted"></dc-voice-user>
+            </div>
+            <div class="channel"><span class="ico">&#128266;</span>AFK</div>
+        </div>
+    </aside>
+
+    <main class="chat">
+        <header class="chat-header"><span class="hash">#</span>reject-log<span class="topic">Commands sent by VoiceReject</span></header>
+        <div class="messages">
+            <div class="msg">
+                <dc-avatar seed="you" size="40"></dc-avatar>
+                <div>
+                    <div><span class="author">kal</span><span class="time">Today at 21:03</span></div>
+                    <div class="body"><span class="cmd">.v reject <span data-peer-id="2"></span></span></div>
+                    <div class="meta">sent by VoiceReject from the member list &mdash; deleted again after 2 seconds</div>
+                </div>
+            </div>
+            <div class="msg">
+                <dc-avatar seed="you" size="40"></dc-avatar>
+                <div>
+                    <div><span class="author">kal</span><span class="time">Today at 21:04</span></div>
+                    <div class="body"><span class="cmd">.v reject <span data-peer-id="0"></span></span></div>
+                    <div class="meta">sent by VoiceReject from the member list &mdash; deleted again after 2 seconds</div>
+                </div>
+            </div>
+        </div>
+        <div class="composer"><div class="box"><span class="plus">+</span>Message #reject-log</div></div>
+    </main>
+
+    <aside class="members">
+        <div class="members-scroll">
+            <div class="group">Online &mdash; 1</div>
+            <dc-member handle="kal" seed="you" icons="gear"></dc-member>
+
+            <div class="group">Voice &mdash; Match Room</div>
+            <dc-member peer="0" hovered></dc-member>
+            <dc-member peer="1" speaking></dc-member>
+            <dc-member peer="2" icons="muted"></dc-member>
+            <dc-member peer="3"></dc-member>
+        </div>
+    </aside>
+</div>
+<script src="fake-data.js"></script>
+</body>
+</html>

@@ -10,6 +10,14 @@ process — the command is sent by your own client.
 [![License: GPL-3.0-or-later](https://img.shields.io/badge/license-GPL--3.0--or--later-blue.svg)](LICENSE)
 [![Vencord userplugin](https://img.shields.io/badge/Vencord-userplugin-5865F2.svg)](https://vencord.dev)
 
+![The Discord client with a red reject button on a hovered member of the voice channel, and the #reject-log channel where that command was sent](assets/screenshots/overview.png)
+
+<sub>Hover a member of your voice channel, click, and the command lands in the
+channel you chose. **These screenshots are recreations** — the accounts, ids and
+avatars in them are generated, so no real person or server appears. They are
+drawn from the plugin's own markup and can be regenerated with
+[`tools/screenshots.sh`](tools/screenshots.sh).</sub>
+
 </div>
 
 ---
@@ -48,6 +56,20 @@ separate process to babysit and no token to leak.
   layout space, so the member list does not shift.
 - **Right-click too.** *Reject from voice* is also in the member context menu.
 
+The button sits in the empty gutter left of the avatar, so the member list does
+not shift when it appears, and it stays invisible until you hover the row:
+
+![Close-up of the member list: the reject button in the gutter left of a hovered member's avatar](assets/screenshots/member-list.png)
+
+It also reports what happened — `✕` on hover, `…` while sending, a green `✓`
+once sent, an amber `!` when it could not send:
+
+![The four button states: idle, busy, done and failed](assets/screenshots/button-states.png)
+
+And from the member list's right-click menu:
+
+![The member context menu with a “Reject from voice” entry](assets/screenshots/context-menu.png)
+
 ## Requirements
 
 - Discord **desktop** (macOS, Windows or Linux).
@@ -80,6 +102,8 @@ The plugin ships with `enabledByDefault: true`, so it is on as soon as it loads.
 ## Configuration
 
 Open **Settings → Vencord Plugins → VoiceReject**.
+
+![Vencord's plugin settings for VoiceReject: the default command and delay, then a per-server card with its channel, command, live preview and delete delay](assets/screenshots/settings.png)
 
 ### Default command and delay
 

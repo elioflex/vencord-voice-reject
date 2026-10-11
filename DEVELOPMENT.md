@@ -12,6 +12,9 @@ vencord-voice-reject/          this repo — the files you edit
   tools/cdp.mjs                dependency-free Chrome DevTools Protocol client
   tools/vc-inspect.js          dump the voice member list + its React chain
   tools/dom-survey.js          find the row elements and their fibre chain
+  tools/screenshots.sh         render the README screenshots (headless Chrome)
+  assets/mockups/              the HTML recreations those screenshots come from
+  assets/screenshots/          the generated PNGs (referenced by the README)
   dev.sh                       the dev loop
 ```
 
@@ -217,6 +220,46 @@ Reliable checks, in order of directness:
 2. Re-test with `transition: none !important` injected and compare.
 3. `CSS.forcePseudoState` with `["hover"]` on the row.
 4. A real hover with the Discord window in the foreground.
+
+## Screenshots
+
+The README's pictures are **recreations**, not captures of a running client: a
+capture of a live Discord window carries your account, your guild and channel
+names, and everyone in the channel. Nothing under `assets/` may contain a real
+person.
+
+```bash
+tools/screenshots.sh          # assets/mockups/*.html → assets/screenshots/*.png
+SCALE=1 tools/screenshots.sh  # smaller files, less detail
+```
+
+- `assets/mockups/discord.css` — the dark-theme look: server rail, channel
+  sidebar, member list, context menu and settings modal. The reject button is
+  styled from the plugin's own `buttonStyle` and `HOVER_CSS`.
+- `assets/mockups/fake-data.js` — seeded generator for handles, snowflake-shaped
+  ids and identicon-style avatars, plus three web components: `<dc-avatar>`,
+  `<dc-member>` (a member-list row) and `<dc-voice-user>` (a sidebar row). Same
+  seed, same picture, every time.
+- `assets/mockups/*.html` — one page per screenshot, sized to the window it is
+  drawn for. Open one in a browser to iterate; no build step, no dependencies.
+
+Rules worth keeping:
+
+- **The button in a mockup is the plugin's button** — same attributes
+  (`data-voice-reject`, `data-state`), same 16×16 geometry, same hover rule. A
+  mockup must not be able to show a state the plugin would not draw.
+- **Every label in the settings shot is copied from the plugin source**, down to
+  the placeholders and the channel verdict. Change the wording of a setting and
+  its screenshot has to change with it.
+- Regenerate the PNGs whenever something visible in `plugins/VoiceReject.tsx`
+  changes; a stale screenshot is worse than none.
+
+Deliberately *not* done: injecting fake users into the live client and
+screenshotting that. It needs the real stores patched before the button draws at
+all (the row only gets one when `isInMyVoiceChannel` says yes), it still captures
+your own guild and channel names, and it would look *more* authentic than it is —
+the one thing a README screenshot must not do. Use the mockups for pictures, and
+`tools/cdp.mjs` to check the real client's behaviour numerically.
 
 ## Discord APIs worth remembering
 

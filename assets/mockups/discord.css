@@ -1,0 +1,561 @@
+/* ============================================================================
+   Discord UI recreation — used to produce the README screenshots.
+   ----------------------------------------------------------------------------
+   This is NOT part of the plugin. It exists so the screenshots can be
+   regenerated (tools/screenshots.sh) from pure markup, which keeps real
+   accounts, servers and messages out of the repository.
+
+   Colours and metrics mirror Discord's dark theme well enough to read as the
+   real client. The reject button itself is styled exactly like the plugin's
+   `buttonStyle` + `HOVER_CSS`, so the screenshot cannot show a button the
+   plugin does not draw.
+   ========================================================================== */
+
+:root {
+    /* Discord dark-theme tokens (the plugin reads these as Vencord variables) */
+    --background-tertiary: #1e1f22;
+    --background-secondary: #2b2d31;
+    --background-secondary-alt: #232428;
+    --background-primary: #313338;
+    --background-modifier-accent: #3f4147;
+    --background-modifier-hover: #35373c;
+    --background-modifier-selected: #404249;
+    --text-normal: #dbdee1;
+    --text-muted: #949ba4;
+    --text-bright: #f2f3f5;
+    --text-link: #00a8fc;
+    --brand: #5865f2;
+    --status-danger: #da373c;
+    --status-positive: #248046;
+    --status-warning: #f0b132;
+    --status-speaking: #23a55a;
+    --font: "gg sans", "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-code: "gg mono", "SF Mono", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--background-primary);
+    color: var(--text-normal);
+    font-family: var(--font);
+    font-size: 14px;
+    line-height: 1.375;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+}
+
+/* ------------------------------------------------------------------ layout */
+
+.app {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* server rail */
+.rail {
+    width: 72px;
+    flex: none;
+    background: var(--background-tertiary);
+    padding: 12px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.rail .pill {
+    position: absolute;
+    left: 0;
+    width: 4px;
+    border-radius: 0 4px 4px 0;
+    background: var(--text-bright);
+}
+
+.guild-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    background: var(--background-primary);
+    color: var(--text-bright);
+    font-size: 18px;
+    font-weight: 600;
+    overflow: hidden;
+}
+
+.guild-icon.active { border-radius: 16px; }
+.guild-icon.add { background: var(--status-positive); color: #fff; font-size: 24px; font-weight: 500; }
+.guild-icon img { width: 100%; height: 100%; object-fit: cover; }
+.rail .sep { width: 32px; height: 2px; border-radius: 1px; background: var(--background-modifier-accent); }
+
+/* channel sidebar */
+.sidebar {
+    width: 240px;
+    flex: none;
+    background: var(--background-secondary);
+    display: flex;
+    flex-direction: column;
+}
+
+.guild-header {
+    height: 48px;
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-bright);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .24), 0 1.5px 0 rgba(0, 0, 0, .08);
+    z-index: 1;
+}
+
+.channels {
+    flex: 1;
+    padding: 16px 8px 8px;
+    overflow: hidden;
+}
+
+.cat {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 8px;
+    margin: 16px 0 4px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+.cat:first-child { margin-top: 0; }
+
+.channel {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 34px;
+    padding: 0 8px;
+    border-radius: 4px;
+    color: var(--text-muted);
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.channel .hash, .channel .ico { width: 20px; flex: none; text-align: center; font-size: 18px; font-weight: 400; }
+.channel.active { background: var(--background-modifier-selected); color: var(--text-bright); }
+.channel .unread { margin-left: auto; width: 8px; height: 8px; border-radius: 50%; background: var(--text-bright); }
+
+/* voice participants nested under a voice channel in the sidebar */
+.voice-users { padding-left: 8px; }
+
+.voice-user {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 34px;
+    padding: 0 8px 0 24px;
+    border-radius: 4px;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.voice-user img, .voice-user .avatar { width: 24px; height: 24px; border-radius: 50%; flex: none; }
+.voice-user .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.voice-user .icons { margin-left: auto; display: flex; gap: 4px; align-items: center; opacity: .8; }
+
+/* ------------------------------------------------------------------- chat */
+
+.chat {
+    flex: 1;
+    min-width: 0;
+    background: var(--background-primary);
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    height: 48px;
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 16px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .2), 0 1.5px 0 rgba(0, 0, 0, .05);
+    color: var(--text-bright);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.chat-header .hash { color: var(--text-muted); font-size: 22px; font-weight: 400; }
+.chat-header .topic {
+    margin-left: 8px;
+    padding-left: 16px;
+    border-left: 1px solid var(--background-modifier-accent);
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.messages { flex: 1; padding: 16px 0; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; }
+
+.msg { display: flex; gap: 16px; padding: 2px 16px 2px 72px; position: relative; margin-bottom: 12px; }
+.msg .avatar { position: absolute; left: 16px; top: 2px; width: 40px; height: 40px; border-radius: 50%; }
+.msg .author { color: var(--text-bright); font-size: 16px; font-weight: 500; }
+.msg .author .bot {
+    margin-left: 6px;
+    padding: 1px 4px;
+    border-radius: 3px;
+    background: var(--brand);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    vertical-align: 2px;
+}
+.msg .time { margin-left: 8px; color: var(--text-muted); font-size: 12px; font-weight: 400; }
+.msg .body { color: var(--text-normal); }
+.msg .cmd {
+    font-family: var(--font-code);
+    font-size: 14px;
+    background: var(--background-secondary);
+    border-radius: 3px;
+    padding: 1px 4px;
+}
+.msg .meta { margin-top: 4px; color: var(--text-muted); font-size: 12px; }
+
+.composer { flex: none; padding: 0 16px 24px; }
+.composer .box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #383a40;
+    border-radius: 8px;
+    padding: 11px 16px;
+    color: var(--text-muted);
+}
+.composer .plus { width: 24px; height: 24px; border-radius: 50%; background: var(--text-muted); color: #383a40; text-align: center; font-weight: 700; line-height: 24px; }
+
+/* ---------------------------------------------------------- member list */
+
+.members {
+    width: 240px;
+    flex: none;
+    background: var(--background-secondary);
+    overflow: hidden;
+}
+
+/* left padding leaves the gutter the reject button sits in */
+.members-scroll { padding: 16px 8px 16px 16px; }
+
+.group {
+    padding: 8px 8px 0;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.member {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 42px;
+    margin-top: 1px;
+    padding: 0 8px;
+    border-radius: 4px;
+    color: var(--text-muted);
+}
+
+.member .avatar, .member img.avatar { width: 32px; height: 32px; border-radius: 50%; flex: none; }
+.member .name { font-size: 16px; font-weight: 500; color: var(--text-muted); }
+.member .sub { font-size: 12px; }
+.member .icons { margin-left: auto; display: flex; align-items: center; gap: 4px; }
+.member .icons svg, .voice-user .icons svg { width: 16px; height: 16px; display: block; }
+.member.hover { background: var(--background-modifier-hover); }
+.member .avatar.speaking { box-shadow: 0 0 0 2px var(--status-speaking); }
+
+/*
+ * The plugin's own button, reproduced from its `buttonStyle` and `HOVER_CSS`:
+ * 16x16, absolutely positioned in the empty gutter left of the avatar, invisible
+ * until the row is hovered (or its state is not `idle`).
+ */
+[data-voice-reject] {
+    opacity: 0;
+    transition: opacity 120ms ease;
+}
+.member:hover [data-voice-reject],
+.voice-user:hover [data-voice-reject],
+[data-voice-reject].force,
+[data-voice-reject]:not([data-state="idle"]) {
+    opacity: 1;
+}
+
+.reject-button {
+    align-items: center;
+    background: var(--status-danger);
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    display: flex;
+    font-family: var(--font);
+    font-size: 10px;
+    font-weight: 600;
+    height: 16px;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+    position: absolute;
+    left: -16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+}
+
+[data-voice-reject][data-state="done"] { background: var(--status-positive); }
+[data-voice-reject][data-state="failed"] { background: var(--status-warning); }
+
+/* ------------------------------------------------------------ menus */
+
+.menu-layer { position: absolute; inset: 0; }
+.menu {
+    position: absolute;
+    min-width: 188px;
+    padding: 4px;
+    border-radius: 4px;
+    background: #111214;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, .24);
+    font-size: 14px;
+    font-weight: 500;
+    color: #b5bac1;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 32px;
+    padding: 0 8px;
+    border-radius: 2px;
+}
+
+.menu-item.danger { color: var(--status-danger); }
+.menu-item .ico { width: 18px; text-align: center; color: var(--text-muted); font-size: 14px; }
+.menu-item.danger .ico { color: var(--status-danger); }
+.menu-sep { height: 1px; margin: 4px 4px; background: var(--background-modifier-accent); }
+
+/* -------------------------------------------------------- settings modal */
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .7);
+    display: flex;
+}
+
+.settings {
+    position: absolute;
+    inset: 20px 40px;
+    display: flex;
+    border-radius: 8px;
+    background: var(--background-primary);
+    overflow: hidden;
+}
+
+.settings-nav {
+    width: 236px;
+    flex: none;
+    background: var(--background-secondary);
+    padding: 60px 8px 60px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.settings-nav .esc { position: absolute; top: 24px; left: 24px; color: var(--text-normal); font-size: 20px; }
+.settings-nav .item { padding: 6px 10px; border-radius: 4px; }
+.settings-nav .item.active { background: var(--background-modifier-selected); color: var(--text-bright); }
+.settings-nav .sub {
+    margin-top: 16px;
+    padding: 6px 10px 4px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+.settings-nav .item.danger { color: var(--status-danger); }
+
+.settings-pane { flex: 1; min-width: 0; padding: 60px 40px 40px; position: relative; }
+
+.settings-search {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 240px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    background: var(--background-tertiary);
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.plugin-card {
+    border: 1px solid var(--background-modifier-accent);
+    border-radius: 8px;
+    background: var(--background-secondary-alt);
+    padding: 16px;
+}
+
+/* Vencord's plugin card header: name, options button, enable toggle */
+.plugin-head { display: flex; align-items: flex-start; gap: 12px; }
+.plugin-head .title { font-size: 16px; font-weight: 600; color: var(--text-bright); }
+.plugin-head .desc { margin-top: 4px; font-size: 13px; color: var(--text-muted); }
+.plugin-head .controls { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.plugin-head .ctrl {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    background: var(--background-tertiary);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+}
+.plugin-head .ctrl.on { background: var(--status-positive); color: #fff; }
+
+.plugin-body { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+
+.option-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    opacity: .7;
+}
+
+.option { display: flex; flex-direction: column; gap: 3px; }
+.option .note { font-size: 11px; opacity: .55; margin-top: -3px; }
+
+.input {
+    background: var(--background-tertiary);
+    border: 1px solid var(--background-secondary);
+    border-radius: 3px;
+    color: var(--text-normal);
+    font-family: var(--font);
+    font-size: 12px;
+    padding: 4px 6px;
+}
+.input.placeholder { color: #6d6f78; }
+.input.flex { flex: 1; min-width: 0; }
+
+.btn {
+    background: var(--background-tertiary);
+    border: 1px solid var(--background-secondary);
+    border-radius: 3px;
+    color: var(--text-normal);
+    cursor: pointer;
+    font-family: var(--font);
+    font-size: 12px;
+    padding: 4px 8px;
+    white-space: nowrap;
+}
+
+.server-card {
+    border: 1px solid var(--background-modifier-accent);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px;
+}
+
+.server-head { font-size: 13px; font-weight: 600; color: var(--text-bright); }
+.server-head .chan { opacity: .6; font-weight: 400; }
+.server-head .flag { margin-left: 6px; font-size: 11px; font-weight: 400; opacity: .75; color: var(--status-positive); }
+
+.row { display: flex; gap: 6px; }
+
+.preview {
+    background: var(--background-secondary);
+    border: 1px solid var(--background-modifier-accent);
+    border-radius: 3px;
+    font-family: var(--font-code);
+    font-size: 12px;
+    overflow-wrap: anywhere;
+    padding: 5px 7px;
+    white-space: pre-wrap;
+    color: var(--text-bright);
+}
+
+.verdict { font-size: 11px; }
+.verdict.ok { color: var(--status-positive); }
+.verdict.warn { color: var(--status-warning); }
+.verdict.error { color: var(--status-danger); }
+
+.intro { font-size: 12px; opacity: .8; line-height: 1.6; }
+
+/* ------------------------------------------------- Vencord plugin modal */
+
+/* Vencord renders plugin settings in a large Discord modal: title, description,
+   an Authors section, then a "Settings" section of option rows. */
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    max-height: calc(100% - 80px);
+    background: var(--background-primary);
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, .4);
+    overflow: hidden;
+}
+
+.modal-header { position: relative; padding: 16px 16px 0; }
+.modal-header .name { font-size: 20px; font-weight: 600; color: var(--text-bright); }
+.modal-header .close { position: absolute; top: 16px; right: 16px; color: var(--text-muted); font-size: 15px; }
+.modal-subtitle { padding: 4px 16px 16px; color: var(--text-muted); font-size: 14px; border-bottom: 1px solid var(--background-modifier-accent); }
+.modal-body { padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+.section-title { font-size: 18px; font-weight: 600; color: var(--text-bright); }
+
+.authors { display: flex; gap: 8px; margin-top: 8px; }
+.authors .who { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; color: var(--text-muted); }
+
+.settings-list { display: flex; flex-direction: column; gap: 16px; }
+.settings-list .title { font-size: 16px; font-weight: 500; color: var(--text-bright); }
+.settings-list .description { font-size: 14px; color: var(--text-muted); }
+
+/* ------------------------------------------------------- shot modifiers */
+
+/* page-sized canvases: one <body> class per screenshot */
+.shot-closeup body, body.shot-closeup { display: flex; align-items: center; justify-content: center; background: var(--background-secondary-alt); }
+
+.crop {
+    background: var(--background-secondary);
+    overflow: hidden;
+}
+
+.crop .members-scroll { padding: 12px 8px; }
+
+/* the states strip: one member row per button state, no Discord chrome */
+.states { background: var(--background-secondary); padding: 16px 20px 16px 40px; display: flex; flex-direction: column; gap: 4px; }
+.state-row { display: flex; align-items: center; gap: 20px; }
+.state-row .member { width: 232px; }
+.state-row .note { font-size: 12px; color: var(--text-muted); }
+.state-row .note b { color: var(--text-normal); font-weight: 600; }

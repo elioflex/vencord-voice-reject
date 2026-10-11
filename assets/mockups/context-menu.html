@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>VoiceReject — context menu</title>
+<link rel="stylesheet" href="discord.css">
+</head>
+<body>
+<!--
+  The member list with a member right-clicked. "Reject from voice" is inserted
+  before the menu's last group, which is where the plugin splices it in.
+-->
+<div class="crop" style="width:620px;height:340px">
+    <!-- the member list column stays 260px wide, like the real pane -->
+    <div class="members-scroll" style="width:260px;padding:14px 8px 14px 24px">
+        <div class="group">Voice &mdash; Match Room</div>
+        <dc-member peer="0" hovered></dc-member>
+        <dc-member peer="1" speaking></dc-member>
+        <dc-member peer="2" icons="muted"></dc-member>
+        <dc-member peer="3"></dc-member>
+    </div>
+</div>
+
+<div class="menu-layer">
+    <div class="menu" style="left:270px;top:44px;width:220px">
+        <div style="display:flex;align-items:center;gap:8px;padding:8px 8px 6px">
+            <dc-avatar seed="peer-1" size="32"></dc-avatar>
+            <div>
+                <div style="color:var(--text-bright);font-weight:600;font-size:15px"><span data-peer-handle="0"></span></div>
+                <div style="font-size:12px;color:var(--text-muted)">Online</div>
+            </div>
+        </div>
+        <div class="menu-sep"></div>
+        <div class="menu-item"><span class="ico">&#9679;</span>Profile</div>
+        <div class="menu-sep"></div>
+        <div class="menu-item"><span class="ico">&#9993;</span>Message</div>
+        <div class="menu-item"><span class="ico">&#43;</span>Add Friend</div>
+        <div class="menu-sep"></div>
+        <div class="menu-item">Reject from voice</div>
+        <div class="menu-sep"></div>
+        <div class="menu-item"><span class="ico">&#8856;</span>Ignore</div>
+        <div class="menu-item danger"><span class="ico">&#8856;</span>Block</div>
+    </div>
+</div>
+<script src="fake-data.js"></script>
+</body>
+</html>

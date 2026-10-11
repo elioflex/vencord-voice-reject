@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>VoiceReject — settings</title>
+<link rel="stylesheet" href="discord.css">
+</head>
+<body>
+<!--
+  Vencord's plugin settings modal (plugin name, description, then one section per
+  option) with this plugin's own settings component inside it. Every label,
+  description, placeholder and verdict below is copied from the plugin source,
+  so the picture cannot promise a setting that does not exist.
+-->
+<div class="app" style="filter:brightness(.35)">
+    <div class="rail"></div>
+    <div class="sidebar"><div class="channels"></div></div>
+    <div class="chat"><div class="chat-header"></div></div>
+    <div class="members"></div>
+</div>
+
+<div class="overlay">
+    <div class="modal" style="max-height:none;width:820px;top:20px;transform:translateX(-50%)">
+        <div class="modal-header">
+            <div class="name">VoiceReject</div>
+            <div class="close">&#10005;</div>
+        </div>
+        <div class="modal-subtitle">One-click reject button next to every member of the voice channel you are in</div>
+
+        <div class="modal-body">
+            <div>
+                <div class="section-title">Settings</div>
+
+                <div class="settings-list" style="margin-top:12px">
+                    <div>
+                        <div class="title">Command</div>
+                        <div class="description">
+                            Command sent when you click a reject button. The user id is appended for you;
+                            optionally place {userId} or {username} yourself to put it somewhere else in the command.
+                        </div>
+                        <input class="input" style="width:100%;margin-top:6px" value=".v reject {userId}">
+                    </div>
+
+                    <div>
+                        <div class="title">Delay Seconds</div>
+                        <div class="description">Seconds before the sent command is deleted &mdash; a plain number like 1 or 2 (0 = keep it).</div>
+                        <input class="input" style="width:100%;margin-top:6px" value="5">
+                    </div>
+
+                    <!-- OptionType.COMPONENT: the plugin's own ServerSettings component -->
+                    <div style="display:flex;flex-direction:column;gap:10px">
+                        <div class="intro">
+                            <b>1.</b> Open the text channel the command should be sent to.
+                            <b>2.</b> Press &ldquo;Use #channel for &hellip;&rdquo; below. That is the whole setup &mdash;
+                            the command and the delay are optional, and their defaults already work.
+                            <br>
+                            Every server is configured separately: give one its own command and the others
+                            keep the default.
+                            <br>
+                            Prefer to be explicit, or configuring a channel you cannot open? Paste its
+                            channel id into the &ldquo;Reject channel&rdquo; box of any server below instead.
+                        </div>
+
+                        <div style="display:flex;align-items:center;gap:8px">
+                            <button class="btn">Use #reject-log for Test Bench</button>
+                            <span style="font-size:12px;opacity:.7">current channel</span>
+                        </div>
+
+                        <div style="display:flex;flex-direction:column;gap:3px">
+                            <div class="option-label">Default command &mdash; used by any server that has no command of its own</div>
+                            <div class="preview">.v reject 123456789012345678</div>
+                            <div class="option-label" style="text-transform:none;letter-spacing:0;font-weight:400;font-size:11px;opacity:.55">
+                                Live preview &mdash; updates as you type. {userId} is shown as 123456789012345678
+                                and {username} as somebody; a real click uses the clicked person.
+                            </div>
+                        </div>
+
+                        <!-- ServerCard -->
+                        <div class="server-card">
+                            <div class="server-head">
+                                Test Bench <span class="chan">&rarr; #reject-log</span>
+                                <span class="flag">&middot; custom command</span>
+                            </div>
+
+                            <div class="option-label">Reject channel</div>
+                            <div class="row">
+                                <input class="input flex" value="1019204837165531728">
+                                <button class="btn">Use current channel</button>
+                            </div>
+                            <div class="verdict ok">Sends to #reject-log.</div>
+
+                            <div class="option-label">Command for this server</div>
+                            <input class="input" value=".v reject {userId}">
+                            <div class="option-label" style="text-transform:none;letter-spacing:0;font-weight:400;font-size:11px;opacity:.55">
+                                This server sends its own command &mdash; other servers are unaffected.
+                            </div>
+
+                            <div class="option-label">Will send (this server's command)</div>
+                            <div class="preview">.v reject 123456789012345678</div>
+                            <div class="option-label" style="text-transform:none;letter-spacing:0;font-weight:400;font-size:11px;opacity:.55">
+                                Live preview &mdash; updates as you type. {userId} is shown as 123456789012345678
+                                and {username} as somebody; a real click uses the clicked person.
+                            </div>
+
+                            <div class="option-label">Delete after &mdash; seconds for this server</div>
+                            <input class="input" value="2">
+
+                            <div class="row"><button class="btn">Remove this server</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="fake-data.js"></script>
+</body>
+</html>
